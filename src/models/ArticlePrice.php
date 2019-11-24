@@ -79,7 +79,7 @@ class ArticlePrice extends NgRestModel
             'price' => 'decimal',
         ];
     }
-    
+
     /**
      * @return Article
      */

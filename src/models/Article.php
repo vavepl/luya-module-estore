@@ -114,7 +114,7 @@ class Article extends NgRestModel
     public function ngRestRelations()
     {
         return [
-            ['label' => Yii::t('estoreadmin', 'Prices'), 'apiEndpoint' => ArticlePrice::ngRestApiEndpoint(), 'dataProvider' => $this->getPrices()],
+            ['label' => Yii::t('estoreadmin', 'Prices'), 'targetModel' => ArticlePrice::class, 'apiEndpoint' => ArticlePrice::ngRestApiEndpoint(), 'dataProvider' => $this->getPrices()],
         ];
     }
     

@@ -126,7 +126,7 @@ class Product extends NgRestModel
     public function ngRestRelations()
     {
         return [
-            ['label' => Yii::t('estoreadmin', 'Articles'), 'apiEndpoint' => Article::ngRestApiEndpoint(), 'dataProvider' => $this->getArticles()],
+            ['label' => Yii::t('estoreadmin', 'Articles'), 'targetModel' => Article::class, 'apiEndpoint' => Article::ngRestApiEndpoint(), 'dataProvider' => $this->getArticles()],
         ];
     }
     
