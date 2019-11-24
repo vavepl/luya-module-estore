@@ -62,5 +62,4 @@ class Module extends \luya\admin\base\Module
     {
         return parent::baseT('estoreadmin', $message, $params);
     }
-}	
 }
