@@ -36,4 +36,6 @@ return [
     'Integer' => 'Liczba całkowita',
     'Boolean' => 'Prawda/Fałsz',
     'String' => 'Ciąg znaków',
+    'Attribute Sets' => 'Atrybuty',
+    'Categories' => 'Grupy'
 ];

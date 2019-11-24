@@ -58,8 +58,8 @@ class Product extends NgRestModel
             'id' => Yii::t('estoreadmin', 'ID'),
             'name' => Yii::t('estoreadmin', 'Name'),
             'producer_id' => Yii::t('estoreadmin', 'Producer ID'),
-            'adminGroups' => 'Categories',
-            'adminSets' => 'Attribute Sets',
+            'adminGroups' => Yii::t('estoreadmin', 'Categories'),
+            'adminSets' => Yii::t('estoreadmin', 'Attribute Sets'),
         ];
     }
 
@@ -126,7 +126,7 @@ class Product extends NgRestModel
     public function ngRestRelations()
     {
         return [
-            ['label' => 'Articles', 'apiEndpoint' => Article::ngRestApiEndpoint(), 'dataProvider' => $this->getArticles()],
+            ['label' => Yii::t('estoreadmin', 'Articles'), 'apiEndpoint' => Article::ngRestApiEndpoint(), 'dataProvider' => $this->getArticles()],
         ];
     }
     

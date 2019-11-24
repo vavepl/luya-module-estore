@@ -30,4 +30,12 @@ return [
     'Products' => '',
     'Sets' => '',
     'Settings' => '',
+    'Set ID' => '',
+    'Attribute ID' => '',
+    'Input' => '',
+    'Integer' => '',
+    'Boolean' => '',
+    'String' => '',
+    'Attribute Sets' => '',
+    'Categories' => ''
 ];
