@@ -30,4 +30,10 @@ return [
     'Products' => 'Produkty',
     'Sets' => 'Zbiory',
     'Settings' => 'Ustawienia',
+    'Set ID' => 'ID Zbioru',
+    'Attribute ID' => 'ID Atrybutu',
+    'Input' => 'Wprowadź',
+    'Integer' => 'Liczba całkowita',
+    'Boolean' => 'Prawda/Fałsz',
+    'String' => 'Ciąg znaków',
 ];

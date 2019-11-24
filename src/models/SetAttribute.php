@@ -53,6 +53,7 @@ class SetAttribute extends NgRestModel
             'type' => Yii::t('estoreadmin', 'Type'),
             'name' => Yii::t('estoreadmin', 'Name'),
             'values' => Yii::t('estoreadmin', 'Values'),
+            'input' => Yii::t('estoreadmin', 'Input'),
         ];
     }
 
@@ -94,16 +95,16 @@ class SetAttribute extends NgRestModel
         return [
             'type' => [
                 'class' => SelectArray::class,
-                'data' => [1 => 'Integer', 2 => 'Boolean', 3  => 'String'],
+                'data' => [1 => Yii::t('estoreadmin', 'Integer'), 2 => Yii::t('estoreadmin', 'Boolean'), 3  => Yii::t('estoreadmin', 'String')],
             ],
             'name' => 'text',
             'values' => 'html',
             'is_i18n' => 'toggleStatus',
             'input' => ['selectArray', 'data' => [
-                TypesInterface::TYPE_TEXT => 'text',
-                TypesInterface::TYPE_TEXTAREA => 'textarea',
-                TypesInterface::TYPE_CHECKBOX => 'checkbox',
-                TypesInterface::TYPE_SELECT => 'select',
+                TypesInterface::TYPE_TEXT => Yii::t('estoreadmin', 'text'),
+                TypesInterface::TYPE_TEXTAREA => Yii::t('estoreadmin', 'textarea'),
+                TypesInterface::TYPE_CHECKBOX => Yii::t('estoreadmin', 'checkbox'),
+                TypesInterface::TYPE_SELECT => Yii::t('estoreadmin', 'select'),
             ]]
         ];
     }

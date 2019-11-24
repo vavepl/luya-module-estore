@@ -37,8 +37,8 @@ class SetAttributeRef extends \yii\db\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'set_id' => 'Set ID',
-            'attribute_id' => 'Attribute ID',
+            'set_id' => Yii::t('estoreadmin', 'Set ID'),
+            'attribute_id' => Yii::t('estoreadmin', 'Attribute ID'),
         ];
     }
 }
