@@ -47,13 +47,13 @@ class Group extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'parent_group_id' => Yii::t('app', 'Parent Group ID'),
-            'cover_image_id' => Yii::t('app', 'Cover Image ID'),
-            'images_list' => Yii::t('app', 'Images List'),
-            'name' => Yii::t('app', 'Name'),
-            'teaser' => Yii::t('app', 'Teaser'),
-            'text' => Yii::t('app', 'Text'),
+            'id' => Yii::t('estoreadmin', 'ID'),
+            'parent_group_id' => Yii::t('estoreadmin', 'Parent Group ID'),
+            'cover_image_id' => Yii::t('estoreadmin', 'Cover Image ID'),
+            'images_list' => Yii::t('estoreadmin', 'Images List'),
+            'name' => Yii::t('estoreadmin', 'Name'),
+            'teaser' => Yii::t('estoreadmin', 'Teaser'),
+            'text' => Yii::t('estoreadmin', 'Text'),
         ];
     }
 

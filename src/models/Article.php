@@ -47,11 +47,11 @@ class Article extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'product_id' => Yii::t('app', 'Product ID'),
-            'name' => Yii::t('app', 'Name'),
-            'sku' => Yii::t('app', 'Sku'),
-            'qty_available' => Yii::t('app', 'Qty Available'),
+            'id' => Yii::t('estoreadmin', 'ID'),
+            'product_id' => Yii::t('estoreadmin', 'Product ID'),
+            'name' => Yii::t('estoreadmin', 'Name'),
+            'sku' => Yii::t('estoreadmin', 'Sku'),
+            'qty_available' => Yii::t('estoreadmin', 'Qty Available'),
         ];
     }
 

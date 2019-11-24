@@ -50,8 +50,8 @@ class Set extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
+            'id' => Yii::t('estoreadmin', 'ID'),
+            'name' => Yii::t('estoreadmin', 'Name'),
         ];
     }
 

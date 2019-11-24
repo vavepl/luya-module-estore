@@ -55,9 +55,9 @@ class Product extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'name' => Yii::t('app', 'Name'),
-            'producer_id' => Yii::t('app', 'Producer ID'),
+            'id' => Yii::t('estoreadmin', 'ID'),
+            'name' => Yii::t('estoreadmin', 'Name'),
+            'producer_id' => Yii::t('estoreadmin', 'Producer ID'),
             'adminGroups' => 'Categories',
             'adminSets' => 'Attribute Sets',
         ];

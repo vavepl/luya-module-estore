@@ -49,10 +49,10 @@ class SetAttribute extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'type' => Yii::t('app', 'Type'),
-            'name' => Yii::t('app', 'Name'),
-            'values' => Yii::t('app', 'Values'),
+            'id' => Yii::t('estoreadmin', 'ID'),
+            'type' => Yii::t('estoreadmin', 'Type'),
+            'name' => Yii::t('estoreadmin', 'Name'),
+            'values' => Yii::t('estoreadmin', 'Values'),
         ];
     }
 

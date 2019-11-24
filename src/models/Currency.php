@@ -44,10 +44,10 @@ class Currency extends NgRestModel
     public function attributeLabels()
     {
         return [
-            'id' => Yii::t('app', 'ID'),
-            'is_base' => Yii::t('app', 'Is Base'),
-            'name' => Yii::t('app', 'Name'),
-            'value' => Yii::t('app', 'Value'),
+            'id' => Yii::t('estoreadmin', 'ID'),
+            'is_base' => Yii::t('estoreadmin', 'Is Base'),
+            'name' => Yii::t('estoreadmin', 'Name'),
+            'value' => Yii::t('estoreadmin', 'Value'),
         ];
     }
 
