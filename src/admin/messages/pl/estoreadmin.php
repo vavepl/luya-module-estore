@@ -8,7 +8,7 @@ return [
     'Images List' => 'Lista zdjęć',
     'Is Base' => 'Bazowa (domyślna)',
     'Name' => 'Nazwa',
-    'Parent Group ID' => 'ID Grupy Nadrzędnej',
+    'Parent Group ID' => 'ID Kategorii Nadrzędnej',
     'Price' => 'Cena',
     'Producer ID' => 'ID Producenta',
     'Product ID' => 'ID Produktu',
@@ -24,7 +24,7 @@ return [
     'Attributes' => 'Atrybuty',
     'Currencies' => 'Waluty',
     'E-Store' => 'Sklep',
-    'Groups' => 'Grupy',
+    'Groups' => 'Kategorie',
     'Prices' => 'Ceny',
     'Producers' => 'Producenci',
     'Products' => 'Produkty',
@@ -37,5 +37,11 @@ return [
     'Boolean' => 'Prawda/Fałsz',
     'String' => 'Ciąg znaków',
     'Attribute Sets' => 'Atrybuty',
-    'Categories' => 'Grupy'
+    'Categories' => 'Kategorie',
+    'is_i18n' => 'Internacjonalizacja?',
+    'text' => 'Tekst',
+    'textarea' => 'Opis',
+    'checkbox' => 'Pole wyboru',
+    'select' => 'Wybór z listy',
+    'Color' => 'Kolor'
 ];

@@ -5,7 +5,7 @@
 	</div>
 	<div class="card-body" ng-show="groupVisibility">
 		<div ng-repeat="attr in item.attributes">
-			<zaa-injector dir="attr.input" options="attr.values_json" fieldid="{{attr.id}}_{{item.set.id}}" fieldname="{{attr.id}}_{{item.set.id}}" label="{{attr.name}}" model="model[item.set.id][attr.id]"></zaa-injector>
+			<zaa-injector dir="attr.input" options="attr.values" fieldid="{{attr.id}}_{{item.set.id}}" fieldname="{{attr.id}}_{{item.set.id}}" label="{{attr.name}}" model="model[item.set.id][attr.id]"></zaa-injector>
 		</div>
 	</div>
 </div> 	</div> 

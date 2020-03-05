@@ -2,6 +2,8 @@
 
 namespace luya\estore\models;
 
+use luya\estore\admin\plugins\JsonObjectArrayPlugin;
+use luya\estore\admin\plugins\JsonObjectPlugin;
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\admin\ngrest\plugins\SelectArray;
@@ -19,6 +21,7 @@ use yii\helpers\Json;
  * @property string $name
  * @property string $values
  * @property integer $is_i18n
+ * @property boolean $is_filter
  */
 class SetAttribute extends NgRestModel
 {
@@ -54,6 +57,20 @@ class SetAttribute extends NgRestModel
             'name' => Yii::t('estoreadmin', 'Name'),
             'values' => Yii::t('estoreadmin', 'Values'),
             'input' => Yii::t('estoreadmin', 'Input'),
+	        'is_i18n' => Yii::t('estoreadmin', 'is_i18n'),
+	        'is_filter' => Yii::t('estoreadmin', 'Is Filter'),
+        ];
+    }
+
+    public function attributeHints()
+    {
+        return [
+            'type' => Yii::t('estoreadmin', 'Type'),
+            'name' => Yii::t('estoreadmin', 'Name'),
+            'values' => Yii::t('estoreadmin', 'Values'),
+            'input' => Yii::t('estoreadmin', 'Input'),
+            'is_i18n' => Yii::t('estoreadmin', 'is_i18n'),
+	        'is_filter' => Yii::t('estoreadmin', 'Is Filter'),
         ];
     }
 
@@ -63,22 +80,13 @@ class SetAttribute extends NgRestModel
     public function rules()
     {
         return [
-            [['type', 'is_i18n'], 'integer'],
+            [['type', 'is_i18n', 'is_filter'], 'integer'],
             [['input', 'name'], 'required'],
             [['values'], 'string'],
             [['input', 'name'], 'string', 'max' => 255],
         ];
     }
 
-    public function fields()
-    {
-        $fields = parent::fields();
-        $fields['values_json'] = function ($model) {
-            return Json::decode($model->values);
-        };
-        return $fields;
-    }
-    
     /**
      * @inheritdoc
      */
@@ -95,11 +103,17 @@ class SetAttribute extends NgRestModel
         return [
             'type' => [
                 'class' => SelectArray::class,
-                'data' => [1 => Yii::t('estoreadmin', 'Integer'), 2 => Yii::t('estoreadmin', 'Boolean'), 3  => Yii::t('estoreadmin', 'String')],
+                'data' => [
+                    1 => Yii::t('estoreadmin', 'Integer'),
+                    2 => Yii::t('estoreadmin', 'Boolean'),
+                    3  => Yii::t('estoreadmin', 'String'),
+                    4  => Yii::t('estoreadmin', 'Color')
+                ],
             ],
             'name' => 'text',
-            'values' => 'html',
-            'is_i18n' => 'toggleStatus',
+            'values' => ['class' => JsonObjectArrayPlugin::class],
+	        'is_i18n' => 'toggleStatus',
+	        'is_filter' => 'toggleStatus',
             'input' => ['selectArray', 'data' => [
                 TypesInterface::TYPE_TEXT => Yii::t('estoreadmin', 'text'),
                 TypesInterface::TYPE_TEXTAREA => Yii::t('estoreadmin', 'textarea'),
@@ -116,8 +130,9 @@ class SetAttribute extends NgRestModel
     {
         return [
             ['list', ['type', 'name', 'values']],
-            [['create', 'update'], ['type', 'name', 'values', 'is_i18n', 'input']],
+            [['create', 'update'], ['type', 'name', 'values', 'is_i18n', 'is_filter', 'input']],
             ['delete', false],
         ];
     }
+
 }

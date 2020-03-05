@@ -18,7 +18,6 @@ class Module extends \luya\admin\base\Module
         'api-estore-articleprice' => 'luya\estore\admin\apis\ArticlePriceController',
         'api-estore-currency' => 'luya\estore\admin\apis\CurrencyController',
         'api-estore-producer' => 'luya\estore\admin\apis\ProducerController',
-        
     ];
     
     public function getMenu()

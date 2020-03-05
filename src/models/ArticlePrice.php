@@ -15,6 +15,7 @@ use luya\admin\ngrest\plugins\SelectRelationActiveQuery;
  * @property integer $currency_id
  * @property integer $qty
  * @property float $price
+ * @property float $priceForOne
  */
 class ArticlePrice extends NgRestModel
 {
@@ -80,8 +81,13 @@ class ArticlePrice extends NgRestModel
         ];
     }
 
+    public function extraFields()
+    {
+        return ['currency'];
+    }
+
     /**
-     * @return Article
+     * @return \yii\db\ActiveQuery
      */
     public function getArticle()
     {
@@ -89,7 +95,7 @@ class ArticlePrice extends NgRestModel
     }
     
     /**
-     * @return Currency
+     * @return \yii\db\ActiveQuery
      */
     public function getCurrency()
     {
@@ -106,5 +112,10 @@ class ArticlePrice extends NgRestModel
             [['create', 'update'], ['article_id', 'currency_id', 'qty', 'price']],
             ['delete', false],
         ];
+    }
+
+    public function getPriceForOne()
+    {
+        return floatval($this->price / $this->qty);
     }
 }

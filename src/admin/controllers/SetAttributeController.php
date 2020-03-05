@@ -13,4 +13,14 @@ class SetAttributeController extends \luya\admin\ngrest\base\Controller
      * @var string The path to the model which is the provider for the rules and fields.
      */
     public $modelClass = 'luya\estore\models\SetAttribute';
+
+    public function actionJsonObject()
+    {
+        return $this->render('json-object');
+    }
+
+    public function actionJsonObjectArray()
+    {
+        return $this->render('json-object-array');
+    }
 }

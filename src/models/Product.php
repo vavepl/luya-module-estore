@@ -2,6 +2,7 @@
 
 namespace luya\estore\models;
 
+use app\buttons\DuplicateActiveButton;
 use Yii;
 use luya\admin\ngrest\base\NgRestModel;
 use luya\admin\ngrest\plugins\CheckboxRelationActiveQuery;
@@ -15,13 +16,18 @@ use luya\admin\ngrest\plugins\CheckboxRelationActiveQuery;
  * @property integer $id
  * @property text $name
  * @property integer $producer_id
+ * @property integer $cover_image_id
+ * @property text $images_list
+ * @property text $teaser
+ * @property text $text
+ * @property Article lastArticle
  */
 class Product extends NgRestModel
 {
     /**
      * @inheritdoc
      */
-    public $i18n = ['name'];
+    public $i18n = ['name', 'teaser', 'text'];
 
     /**
      * @var array
@@ -32,7 +38,7 @@ class Product extends NgRestModel
      * @var array
      */
     public $adminSets = [];
-    
+
     /**
      * @inheritdoc
      */
@@ -60,6 +66,10 @@ class Product extends NgRestModel
             'producer_id' => Yii::t('estoreadmin', 'Producer ID'),
             'adminGroups' => Yii::t('estoreadmin', 'Categories'),
             'adminSets' => Yii::t('estoreadmin', 'Attribute Sets'),
+	        'cover_image_id' => Yii::t('estoreadmin', 'Cover Image ID'),
+	        'images_list' => Yii::t('estoreadmin', 'Images List'),
+	        'teaser' => Yii::t('estoreadmin', 'Teaser'),
+	        'text' => Yii::t('estoreadmin', 'Text'),
         ];
     }
 
@@ -69,9 +79,9 @@ class Product extends NgRestModel
     public function rules()
     {
         return [
-            [['name', 'producer_id'], 'required'],
-            [['name'], 'string'],
-            [['producer_id'], 'integer'],
+            [['name', 'producer_id', 'cover_image_id', 'images_list', 'teaser', 'text'], 'required'],
+            [['name', 'images_list', 'teaser', 'text'], 'string'],
+	        [['producer_id', 'cover_image_id'], 'integer'],
             [['adminGroups', 'adminSets'], 'safe'],
         ];
     }
@@ -81,7 +91,7 @@ class Product extends NgRestModel
      */
     public function genericSearchFields()
     {
-        return ['name'];
+        return ['name', 'images_list', 'teaser', 'text'];
     }
 
     /**
@@ -92,6 +102,10 @@ class Product extends NgRestModel
         return [
             'name' => 'text',
             'producer_id' => ['selectModel', 'modelClass' => Producer::class],
+	        'cover_image_id' => 'image',
+	        'images_list' => 'imageArray',
+	        'teaser' => 'text',
+	        'text' => 'textarea',
         ];
     }
     
@@ -101,9 +115,9 @@ class Product extends NgRestModel
     public function ngRestScopes()
     {
         return [
-            ['list', ['name', 'producer_id']],
-            [['create', 'update'], ['name', 'producer_id', 'adminGroups', 'adminSets']],
-            ['delete', false],
+            ['list', ['cover_image_id', 'images_list', 'name', 'producer_id', 'teaser', 'text']],
+            [['create', 'update'], ['cover_image_id', 'images_list', 'name', 'producer_id', 'teaser', 'text', 'adminGroups', 'adminSets']],
+            ['delete', true],
         ];
     }
     
@@ -127,14 +141,30 @@ class Product extends NgRestModel
     {
         return [
             ['label' => Yii::t('estoreadmin', 'Articles'), 'targetModel' => Article::class, 'apiEndpoint' => Article::ngRestApiEndpoint(), 'dataProvider' => $this->getArticles()],
+            ['label' => Yii::t('estoreadmin', 'Groups'), 'targetModel' => Group::class, 'apiEndpoint' => Group::ngRestApiEndpoint(), 'dataProvider' => $this->getGroups()],
         ];
     }
-    
+
     public function extraFields()
     {
-        return ['adminGroups', 'adminSets'];
+        return ['adminGroups', 'adminSets', 'articles', 'groups', 'producer', 'coverImage', 'imagesList', 'sets', 'setAttributes'];
     }
-    
+
+    public function ngRestActiveButtons()
+    {
+        return [
+            ['class' => DuplicateActiveButton::class],
+        ];
+    }
+
+    public function getLastArticle()
+    {
+        return $this->getArticles()->orderBy(['id'=>SORT_DESC])->one();
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getArticles()
     {
         return $this->hasMany(Article::class, ['product_id' => 'id']);
@@ -144,9 +174,49 @@ class Product extends NgRestModel
     {
         return $this->hasMany(Group::class, ['id' => 'group_id'])->viaTable(ProductGroupRef::tableName(), ['product_id' => 'id']);
     }
-    
-    public function getSets()
-    {
-        return $this->hasMany(Set::class, ['id' => 'set_id'])->viaTable(ProductSetRef::tableName(), ['product_id' => 'id']);
-    }
+
+	public function getSets()
+	{
+		return $this->hasMany(Set::class, ['id' => 'set_id'])->viaTable(ProductSetRef::tableName(), ['product_id' => 'id']);
+	}
+
+	public function getSetAttributeRef()
+	{
+		return $this->hasMany(SetAttributeRef::class, ['set_id' => 'set_id'])->viaTable(ProductSetRef::tableName(), ['product_id' => 'id']);
+
+	}
+
+	public function getSetAttributes(){
+		return $this->hasMany(SetAttribute::class, ['id' => 'attribute_id'])->via('setAttributeRef');
+	}
+
+	public function getProducer()
+	{
+		return $this->hasOne(Producer::class, ['id' => 'producer_id']);
+	}
+
+	public function getImagesList()
+	{
+		$arr = [];
+
+		foreach($this->images_list as $image){
+			$item = Yii::$app->storage->getImage($image["imageId"]);
+			if($item)
+				$arr[] = $item->getSource(true);
+		}
+
+		return $arr;
+	}
+
+	public function getCoverImage()
+	{
+		$img = Yii::$app->storage->getImage($this->cover_image_id);
+
+		if($img){
+			return $img->getSource(true);
+		}
+
+		return '/assets/img/product-image.png';
+	}
+
 }

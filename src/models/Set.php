@@ -110,7 +110,7 @@ class Set extends NgRestModel
 
     public function extraFields()
     {
-        return ['adminSetAttributes'];
+        return ['adminSetAttributes', 'setAttributes'];
     }
     
     public function getSetAttributes()

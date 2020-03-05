@@ -10,6 +10,8 @@ class EstoreAdminAsset extends Asset
     
     public $js = [
         'estoreAttributes.js',
+        'estoreJsonObject.js',
+        'estoreJsonObjectArray.js',
     ];
     
     public $depends = [

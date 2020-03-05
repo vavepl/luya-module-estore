@@ -13,4 +13,14 @@ class ArticleController extends \luya\admin\ngrest\base\Api
      * @var string The path to the model which is the provider for the rules and fields.
      */
     public $modelClass = 'luya\estore\models\Article';
+
+	public $authOptional = ['index', 'view'];
+
+    public function withRelations()
+    {
+        return [
+            'index' => ['prices'],
+            'view' => ['prices'],
+        ];
+    }
 }

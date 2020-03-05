@@ -17,6 +17,7 @@ use luya\estore\admin\plugins\ArticleAttributesPlugin;
  * @property text $name
  * @property string $sku
  * @property integer $qty_available
+ * @property ArticlePrice $lastPrice
  */
 class Article extends NgRestModel
 {
@@ -120,7 +121,7 @@ class Article extends NgRestModel
     
     public function extraFields()
     {
-        return ['values'];
+        return ['values', 'prices', 'product'];
     }
     
     public function getAttributeValues()
@@ -171,5 +172,10 @@ class Article extends NgRestModel
     public function getPrices()
     {
         return $this->hasMany(ArticlePrice::class, ['article_id' => 'id']);
+    }
+
+    public function getLastPrice()
+    {
+        return $this->getPrices()->orderBy(['article_id'=>SORT_DESC])->one();
     }
 }

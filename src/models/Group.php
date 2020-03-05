@@ -20,6 +20,10 @@ use luya\admin\ngrest\base\NgRestModel;
  */
 class Group extends NgRestModel
 {
+
+    public $childs;
+    public $children;
+
     /**
      * @inheritdoc
      */
@@ -65,7 +69,7 @@ class Group extends NgRestModel
         return [
             [['parent_group_id', 'cover_image_id'], 'integer'],
             [['images_list', 'name', 'teaser', 'text'], 'string'],
-            [['name'], 'required'],
+            [['name'], 'required']
         ];
     }
 
@@ -83,7 +87,7 @@ class Group extends NgRestModel
     public function ngRestAttributeTypes()
     {
         return [
-            'parent_group_id' => 'number',
+            'parent_group_id' => ['selectModel', 'modelClass' => Group::class, 'valueField' => 'id', 'labelField' => 'name'],
             'cover_image_id' => 'image',
             'images_list' => 'imageArray',
             'name' => 'text',
@@ -103,4 +107,121 @@ class Group extends NgRestModel
             ['delete', false],
         ];
     }
+
+    public function ngRestRelations()
+    {
+        return [
+            ['label' => Yii::t('estoreadmin', 'Products'), 'targetModel' => Product::class, 'apiEndpoint' => Product::ngRestApiEndpoint(), 'dataProvider' => $this->getProducts()],
+        ];
+    }
+
+    public function getProducts()
+    {
+        return $this->hasMany(Product::class, ['id' => 'product_id'])->viaTable(ProductGroupRef::tableName(), ['group_id' => 'id']);
+    }
+
+    public function getGroup()
+    {
+	    return $this->hasOne(Group::class, ['id' => 'parent_group_id']);
+
+    }
+
+	public function extraFields()
+	{
+		return ['products', 'coverImage', 'imagesList', 'parentGroup'];
+	}
+
+    public function getImagesList()
+    {
+        $arr = [];
+
+        foreach($this->images_list as $image){
+            $item = Yii::$app->storage->getImage($image["imageId"]);
+            if($item)
+                $arr[] = $item->getSource(true);
+        }
+
+        return $arr;
+    }
+
+    public function getCoverImage()
+    {
+        $img = Yii::$app->storage->getImage($this->cover_image_id);
+
+        if($img){
+            return $img->getSource(true);
+        }
+
+        return '/assets/img/product-image.png';
+    }
+
+	public function getParentGroup()
+	{
+		if($this->group){
+			return $this->group->name;
+		}
+
+		return null;
+	}
+
+    public static function buildTree(array $elements, $parentId = 0, $level = '') {
+
+        $branch = array();
+
+        $level_ini = $level;
+
+        foreach ($elements as $element) {
+
+            $level = $level_ini;
+
+            if ($element->parent_group_id == $parentId) {
+
+                $element->name = $level.$element->name;
+
+                $level .= '_';
+
+                $children = self::buildTree($elements, $element->id, $level);
+
+                $branch["n".$element->id] = $element->name;
+
+                if ($children) {
+
+                    $branch = yii\helpers\ArrayHelper::merge($branch,$children);
+
+                }
+
+            }
+
+        }
+
+        return $branch;
+
+    }
+
+    public static function buildTree2(array $elements, $parentId = null) {
+        $branch = array();
+
+        foreach ($elements as $element) {
+            if ($element->parent_group_id == $parentId) {
+                $children = self::buildTree2($elements, $element->id);
+
+                $tmp = [
+                	"id" => $element->id,
+	                "name" => $element->name,
+	                "parent_group_id" => $element->parent_group_id,
+	                "children" => []
+                ];
+
+				if ($children) {
+                    $tmp['children'] = $children;
+                }
+
+                $branch[] = $tmp;
+
+                unset($elements[$element->id]);
+            }
+        }
+        return $branch;
+    }
+
 }
